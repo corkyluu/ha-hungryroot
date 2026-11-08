@@ -79,7 +79,10 @@ SENSORS: tuple[HungryrootSensorDescription, ...] = (
         native_unit_of_measurement="recipes",
         state_class=SensorStateClass.MEASUREMENT,
         value_fn=lambda d: len(_next(d).get("recipes") or []) if _next(d) else None,
-        attrs_fn=lambda d: {"recipes": _next(d).get("recipes") or []},
+        attrs_fn=lambda d: {
+            "recipes": _next(d).get("recipes") or [],
+            "recipe_details": _next(d).get("recipe_details") or [],
+        },
     ),
     HungryrootSensorDescription(
         key="next_box_total",
@@ -125,6 +128,8 @@ async def async_setup_entry(
 
 class HungryrootSensor(HungryrootEntity, SensorEntity):
     entity_description: HungryrootSensorDescription
+    # Big lists: shown live, but not copied into the history database every refresh.
+    _unrecorded_attributes = frozenset({"items", "recipes", "recipe_details", "orders"})
 
     def __init__(self, coordinator, description: HungryrootSensorDescription) -> None:
         super().__init__(coordinator, description.key)

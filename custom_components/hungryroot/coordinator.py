@@ -118,15 +118,37 @@ def parse_order(order: dict[str, Any] | None) -> dict[str, Any] | None:
                 {
                     "name": name,
                     "quantity": _first(prod, "quantity", "container_quantity") or 1,
+                    "category": _first(inner, "primary_category_name") or "Other",
+                    "brand": _first(inner, "brand_name"),
+                    "image": _first(inner, "small_image_url", "card_image_url"),
                 }
             )
 
     recipes: list[str] = []
+    recipe_details: list[dict[str, Any]] = []
     for bundle in order.get("bundles") or []:
         pairing = bundle.get("pairing") if isinstance(bundle, dict) else None
         name = _name(pairing) or _first(bundle, "pairing_name")
-        if name and name not in recipes:
-            recipes.append(name)
+        if not name or name in recipes:
+            continue
+        recipes.append(name)
+        pairing = pairing if isinstance(pairing, dict) else {}
+        dish_type = pairing.get("dish_type")
+        recipe_details.append(
+            {
+                "name": name,
+                "image": _first(pairing, "featured_img_url", "featured_img_transparent_url"),
+                "minutes": pairing.get("cooking_time"),
+                "calories": pairing.get("calories"),
+                "servings": pairing.get("servings"),
+                "dish_type": _name(dish_type) if isinstance(dish_type, dict) else dish_type,
+                "url": (
+                    f"https://www.hungryroot.com/recipes/{pairing['slug']}/"
+                    if pairing.get("slug")
+                    else None
+                ),
+            }
+        )
 
     return {
         "id": order.get("id"),
@@ -145,6 +167,7 @@ def parse_order(order: dict[str, Any] | None) -> dict[str, Any] | None:
         "shipping_cost": _money(order.get("shipping_cost")),
         "items": items,
         "recipes": recipes,
+        "recipe_details": recipe_details,
     }
 
 

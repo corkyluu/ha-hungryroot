@@ -200,3 +200,35 @@ def test_status_names():
     assert parse_order({"status": 20, "status_label": "Recurring"})["status"] == "Scheduled"
     assert parse_order({"status": 80})["status"] == "Out for delivery"
     assert parse_order({"status": 999, "status_label": "New Thing"})["status"] == "New Thing"
+
+
+def test_photos_and_details():
+    order = {
+        "products": [
+            {"name": "Kale", "primary_category_name": "Produce", "small_image_url": "https://x/k.jpg"}
+        ],
+        "bundles": [
+            {
+                "pairing": {
+                    "name": "Bowl",
+                    "featured_img_url": "https://x/b.jpg",
+                    "cooking_time": 10,
+                    "calories": 300,
+                    "servings": 4,
+                    "dish_type": {"name": "Bowl"},
+                }
+            }
+        ],
+    }
+    p = parse_order(order)
+    assert p["items"][0]["image"] == "https://x/k.jpg"
+    assert p["items"][0]["category"] == "Produce"
+    assert p["recipe_details"][0] == {
+        "name": "Bowl",
+        "image": "https://x/b.jpg",
+        "minutes": 10,
+        "calories": 300,
+        "servings": 4,
+        "dish_type": "Bowl",
+        "url": None,
+    }
