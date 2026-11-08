@@ -68,7 +68,7 @@
   "issues": {
     "api_changed": {
       "title": "Hungryroot changed their website",
-      "description": "The Hungryroot integration got an answer it doesn't understand ({detail}). Some sensors may be empty until it's updated.\n\nTo fix: open HACS, check for a Hungryroot update and install it. If there's no update yet, download diagnostics from Settings → Devices & services → Hungryroot → ⋮ → Download diagnostics, and hand that file to whoever maintains the integration."
+      "description": "The Hungryroot integration got an answer it doesn't understand ({detail}). Some sensors may be empty until it's updated.\n\nTo fix: go to Settings → Updates (or Settings → Marketplace → Hungryroot) and install the latest version. If there's no update yet, download diagnostics from Settings → Devices & services → Hungryroot → ⋮ → Download diagnostics, and hand that file to whoever maintains the integration."
     }
   },
   "entity": {

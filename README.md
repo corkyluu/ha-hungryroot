@@ -7,14 +7,11 @@ It never changes, skips or places an order.
 > Hungryroot has no public API. This uses the same private API their website uses, so it can break
 > whenever they change their site. Not affiliated with or endorsed by Hungryroot.
 
-## Install (Home Assistant Marketplace, 2026.11+)
+## Install (Home Assistant Marketplace)
 
 1. Settings → **Marketplace** → **Add from link** → `corkyluu/ha-hungryroot`, type **Integration**.
    (Adding a link needs the Marketplace connected to a GitHub account.)
 2. Open **Hungryroot** → **Install**. The setup screen opens.
-
-On older Home Assistant with HACS: HACS → ⋮ → **Custom repositories** → this repo, type
-**Integration** → Download → restart → Add integration → Hungryroot.
 
 ## Logging in
 
@@ -42,6 +39,7 @@ Settings (⋮ → **Configure**): how often to check, 1–24 hours (default 6).
 
 ## When it breaks
 
-If Hungryroot changes their site, a **Repairs** card appears in Settings explaining it. Update the
-integration in HACS. If no update exists yet, use **Download diagnostics** on the integration
-(personal details are removed) and use it to fix the parser in `coordinator.py`.
+If Hungryroot changes their site, a **Repairs** card appears in Settings explaining it. Install the
+update from Settings → Updates (or the Hungryroot page in Settings → Marketplace). If no update
+exists yet, use **Download diagnostics** on the integration (personal details are removed) and use
+it to fix the parser in `coordinator.py`.
