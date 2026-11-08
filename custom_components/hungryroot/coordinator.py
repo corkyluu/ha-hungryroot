@@ -74,6 +74,36 @@ def _name(obj: Any) -> str | None:
     return _first(obj, "name", "display_name", "title", "short_name")
 
 
+# Order status codes from hungryroot.com's own code.
+STATUS_NAMES = {
+    0: "None",
+    10: "Cart",
+    20: "Scheduled",  # Hungryroot calls this "Recurring": planned, still editable
+    25: "Charging",
+    30: "Submitted",
+    35: "Released",
+    40: "Processing",
+    60: "Pre-transit",
+    70: "In transit",
+    80: "Out for delivery",
+    100: "Delivered",
+    -20: "Skipped",
+    -30: "Held",
+    -40: "Canceled",
+    -60: "Undelivered",
+    -80: "Invalidated",
+    -90: "Voided",
+    -100: "Error",
+}
+
+
+def _status(order: dict[str, Any]) -> str | None:
+    code = order.get("status")
+    if isinstance(code, int) and code in STATUS_NAMES:
+        return STATUS_NAMES[code]
+    return _first(order, "status_label") or (str(code) if code is not None else None)
+
+
 def parse_order(order: dict[str, Any] | None) -> dict[str, Any] | None:
     """Pull the fields we show out of one order, whatever shape it comes in."""
     if not isinstance(order, dict):
@@ -100,12 +130,15 @@ def parse_order(order: dict[str, Any] | None) -> dict[str, Any] | None:
 
     return {
         "id": order.get("id"),
-        "status": _first(order, "status", "status_display", "state"),
+        "status": _status(order),
         "delivery_date": _as_date(
             _first(order, "delivery_date", "preferred_date", "scheduled_delivery_date")
         ),
         "cutoff": _as_datetime(_first(order, "cutoff_datetime", "cutoff", "edit_deadline")),
         "deadline_exceeded": order.get("deadline_exceeded"),
+        "is_editable": order.get("is_editable"),
+        "days_left_to_customize": order.get("days_left_to_customize"),
+        "tracking_url": order.get("tracking_url") or None,
         "total": _money(
             _first(order, "total", "total_price", "grand_total", "order_total", "price")
         ),

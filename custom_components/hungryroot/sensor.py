@@ -101,6 +101,15 @@ SENSORS: tuple[HungryrootSensorDescription, ...] = (
         key="last_delivery",
         device_class=SensorDeviceClass.DATE,
         value_fn=lambda d: (_history(d)[0].get("delivery_date") if _history(d) else None),
+        attrs_fn=lambda d: (
+            {
+                "status": _history(d)[0].get("status"),
+                "total": _history(d)[0].get("total"),
+                "tracking_url": _history(d)[0].get("tracking_url"),
+            }
+            if _history(d)
+            else {}
+        ),
     ),
 )
 

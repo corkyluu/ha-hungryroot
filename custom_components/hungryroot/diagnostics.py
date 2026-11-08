@@ -42,6 +42,9 @@ REDACT = {
     "referral_link",
     "token",
     "unique_id",
+    "tracking_url",
+    "shipping_address",
+    "customer_name",
 }
 
 

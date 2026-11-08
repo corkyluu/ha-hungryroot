@@ -30,9 +30,16 @@ class HungryrootBoxEditable(HungryrootEntity, BinarySensorEntity):
         order = self.next_order
         if not order:
             return None
-        if order.get("deadline_exceeded") is True:
+        if order.get("deadline_exceeded") is True or order.get("is_editable") is False:
             return False
         cutoff = order.get("cutoff")
         if cutoff is None:
             return None
         return dt_util.utcnow() < cutoff
+
+    @property
+    def extra_state_attributes(self) -> dict | None:
+        order = self.next_order
+        if not order:
+            return None
+        return {"days_left_to_customize": order.get("days_left_to_customize")}

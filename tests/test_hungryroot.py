@@ -194,3 +194,9 @@ async def test_reauth_rejects_other_account(hass):
             result["flow_id"], {CONF_COOKIE: "sessionid=other"}
         )
     assert result["reason"] == "wrong_account"
+
+
+def test_status_names():
+    assert parse_order({"status": 20, "status_label": "Recurring"})["status"] == "Scheduled"
+    assert parse_order({"status": 80})["status"] == "Out for delivery"
+    assert parse_order({"status": 999, "status_label": "New Thing"})["status"] == "New Thing"
