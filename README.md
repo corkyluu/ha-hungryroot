@@ -7,11 +7,14 @@ It never changes, skips or places an order.
 > Hungryroot has no public API. This uses the same private API their website uses, so it can break
 > whenever they change their site. Not affiliated with or endorsed by Hungryroot.
 
-## Install (HACS)
+## Install (Home Assistant Marketplace, 2026.11+)
 
-1. HACS → ⋮ → **Custom repositories** → add this repo's URL, type **Integration**.
-2. Find **Hungryroot** in HACS → **Download**, then restart Home Assistant.
-3. Settings → Devices & services → **Add integration** → **Hungryroot**.
+1. Settings → **Marketplace** → **Add from link** → `corkyluu/ha-hungryroot`, type **Integration**.
+   (Adding a link needs the Marketplace connected to a GitHub account.)
+2. Open **Hungryroot** → **Install**. The setup screen opens.
+
+On older Home Assistant with HACS: HACS → ⋮ → **Custom repositories** → this repo, type
+**Integration** → Download → restart → Add integration → Hungryroot.
 
 ## Logging in
 
