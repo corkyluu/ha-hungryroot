@@ -116,13 +116,36 @@ def parse_order(order: dict[str, Any] | None) -> dict[str, Any] | None:
 
 
 def _results(payload: Any) -> list[dict[str, Any]]:
+    """Find the list of orders.
+
+    The orders list comes back as {"count", "next", "results": {"order": [...], "tags": [...]}};
+    a single order as {"order": [...], "tags": [...]}.
+    """
     if isinstance(payload, list):
         return payload
     if isinstance(payload, dict):
         for key in ("results", "orders", "order", "data"):
-            if isinstance(payload.get(key), list):
-                return payload[key]
-    raise HungryrootApiChanged("Orders list has an unexpected shape")
+            val = payload.get(key)
+            if isinstance(val, list):
+                return val
+            if isinstance(val, dict):
+                for inner in ("order", "orders", "results"):
+                    if isinstance(val.get(inner), list):
+                        return val[inner]
+    raise HungryrootApiChanged(f"Orders list has an unexpected shape ({_shape(payload)})")
+
+
+def _shape(payload: Any) -> str:
+    """Describe a response's layout (field names only, never values) for error messages."""
+    if isinstance(payload, dict):
+        parts = []
+        for key, val in list(payload.items())[:12]:
+            if isinstance(val, dict):
+                parts.append(f"{key}{{{', '.join(list(val)[:8])}}}")
+            else:
+                parts.append(f"{key}:{type(val).__name__}")
+        return ", ".join(parts)
+    return type(payload).__name__
 
 
 class HungryrootCoordinator(DataUpdateCoordinator[dict[str, Any]]):

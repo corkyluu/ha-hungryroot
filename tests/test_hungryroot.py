@@ -112,7 +112,8 @@ async def _setup(hass, **patches):
     entry.add_to_hass(hass)
     defaults = {
         "get_customer": {"id": 42},
-        "get_orders": {"results": [ORDER]},
+        # Real layout seen 2026-11-08: orders nested under results.order
+        "get_orders": {"count": 1, "next": None, "results": {"order": [ORDER], "tags": []}},
         "get_order": {"order": [ORDER], "tags": []},
     }
     defaults.update(patches)
