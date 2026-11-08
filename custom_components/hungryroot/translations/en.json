@@ -78,8 +78,10 @@
     "sensor": {
       "next_delivery": { "name": "Next delivery" },
       "edit_cutoff": { "name": "Edit cut-off" },
-      "box_items": { "name": "Box items" },
-      "recipes": { "name": "Recipes this week" },
+      "box_items": { "name": "Next box items" },
+      "current_items": { "name": "Current box items" },
+      "current_recipes": { "name": "Current box recipes" },
+      "recipes": { "name": "Next box recipes" },
       "next_box_total": { "name": "Next box total" },
       "recent_spend": { "name": "Spend (last 10 orders)" },
       "last_delivery": { "name": "Last delivery" }

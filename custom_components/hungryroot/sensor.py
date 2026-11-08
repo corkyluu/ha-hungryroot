@@ -23,6 +23,10 @@ def _next(data: dict[str, Any]) -> dict[str, Any]:
     return data.get("next_order") or {}
 
 
+def _current(data: dict[str, Any]) -> dict[str, Any]:
+    return data.get("current_box") or {}
+
+
 def _history(data: dict[str, Any]) -> list[dict[str, Any]]:
     return data.get("history") or []
 
@@ -52,6 +56,29 @@ class HungryrootSensorDescription(SensorEntityDescription):
 
 
 SENSORS: tuple[HungryrootSensorDescription, ...] = (
+    HungryrootSensorDescription(
+        key="current_items",
+        native_unit_of_measurement="items",
+        value_fn=lambda d: len(_current(d).get("items") or []) if _current(d) else None,
+        attrs_fn=lambda d: {
+            "delivery_date": (
+                _current(d)["delivery_date"].isoformat()
+                if _current(d).get("delivery_date")
+                else None
+            ),
+            "status": _current(d).get("status"),
+            "items": _current(d).get("items") or [],
+        },
+    ),
+    HungryrootSensorDescription(
+        key="current_recipes",
+        native_unit_of_measurement="recipes",
+        value_fn=lambda d: len(_current(d).get("recipes") or []) if _current(d) else None,
+        attrs_fn=lambda d: {
+            "recipes": _current(d).get("recipes") or [],
+            "recipe_details": _current(d).get("recipe_details") or [],
+        },
+    ),
     HungryrootSensorDescription(
         key="next_delivery",
         device_class=SensorDeviceClass.DATE,

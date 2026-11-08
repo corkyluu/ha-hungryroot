@@ -261,6 +261,8 @@ class HungryrootCoordinator(DataUpdateCoordinator[dict[str, Any]]):
             "next_order": next_order,
             "upcoming_count": len(upcoming),
             "history": history,
+            # The box you have now: the most recent delivered / arriving box.
+            "current_box": history[0] if history else None,
         }
 
     def _save_cookie(self) -> None:

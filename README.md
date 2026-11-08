@@ -29,8 +29,10 @@ and log in again from the same screens.
 | Next delivery | Date of the next box (status and order id in attributes) |
 | Edit cut-off | Deadline to change the next box |
 | Box editable | On until the cut-off passes |
-| Box items | Number of items; the list is in the `items` attribute |
-| Recipes this week | Number of recipes; names in the `recipes` attribute |
+| Current box items | Items in the box you have now (latest delivery), with photos |
+| Current box recipes | Recipes for the box you have now, with photos, cook time, calories |
+| Next box items | Items in the next box; the list is in the `items` attribute |
+| Next box recipes | Recipes planned for the next box |
 | Next box total | Price of the next box |
 | Spend (last 10 orders) | Sum of recent orders; each order in the `orders` attribute |
 | Last delivery | Date of the most recent box |

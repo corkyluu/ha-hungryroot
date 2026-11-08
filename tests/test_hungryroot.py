@@ -135,15 +135,21 @@ async def test_sensors(hass):
     entry = await _setup(hass)
     assert entry.state is config_entries.ConfigEntryState.LOADED
     assert hass.states.get("sensor.hungryroot_next_delivery").state == "2026-11-12"
-    items = hass.states.get("sensor.hungryroot_box_items")
+    items = hass.states.get("sensor.hungryroot_next_box_items")
     assert items.state == "2"
     assert items.attributes["items"][0]["name"] == "Chicken Sausage"
-    assert hass.states.get("sensor.hungryroot_recipes_this_week").attributes["recipes"] == [
+    assert hass.states.get("sensor.hungryroot_next_box_recipes").attributes["recipes"] == [
         "Sausage & Kale Bowl"
     ]
     assert hass.states.get("sensor.hungryroot_next_box_total").state == "89.5"
     assert hass.states.get("sensor.hungryroot_spend_last_10_orders").state == "89.5"
     assert hass.states.get("binary_sensor.hungryroot_box_editable") is not None
+    cur = hass.states.get("sensor.hungryroot_current_box_items")
+    assert cur.state == "2"
+    assert cur.attributes["delivery_date"] == "2026-11-12"
+    cur_r = hass.states.get("sensor.hungryroot_current_box_recipes")
+    assert cur_r.state == "1"
+    assert cur_r.attributes["recipe_details"][0]["name"] == "Sausage & Kale Bowl"
 
 
 async def test_expired_session_starts_reauth(hass):
