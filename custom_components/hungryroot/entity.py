@@ -24,7 +24,7 @@ class HungryrootEntity(CoordinatorEntity[HungryrootCoordinator]):
             manufacturer="Hungryroot",
             model="Grocery subscription",
             entry_type=DeviceEntryType.SERVICE,
-            configuration_url="https://www.hungryroot.com/account/",
+            configuration_url="https://www.hungryroot.com/orders/",
         )
 
     @property
