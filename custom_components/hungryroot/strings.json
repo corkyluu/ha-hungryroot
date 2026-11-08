@@ -1,0 +1,88 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Connect Hungryroot",
+        "description": "Read-only: Home Assistant will see your deliveries, box and recipes, but never change your order.",
+        "menu_options": {
+          "login": "Log in with email and password",
+          "session": "Paste a session from my browser"
+        }
+      },
+      "reauth_menu": {
+        "title": "Log in to Hungryroot again",
+        "description": "Your Hungryroot session expired. Log in again to keep your sensors updating.",
+        "menu_options": {
+          "login": "Log in with email and password",
+          "session": "Paste a session from my browser"
+        }
+      },
+      "reconfigure": {
+        "title": "Update Hungryroot login",
+        "menu_options": {
+          "login": "Log in with email and password",
+          "session": "Paste a session from my browser"
+        }
+      },
+      "login": {
+        "title": "Hungryroot login",
+        "description": "Use the same email and password you use on hungryroot.com. Your password is only used for this login and is not saved.",
+        "data": {
+          "email": "Email",
+          "password": "Password"
+        }
+      },
+      "session": {
+        "title": "Paste your Hungryroot session",
+        "description": "{reason}\n\n1. On a computer, open Chrome and log in at hungryroot.com.\n2. Press F12 (Mac: Cmd+Option+I) to open Developer Tools.\n3. Click the **Network** tab, then reload the page.\n4. In the filter box type `api.hungryroot.com` and click any row in the list.\n5. Under **Headers** → **Request Headers**, find **cookie**. Right-click its value → **Copy value**.\n6. Paste it below.",
+        "data": {
+          "cookie": "Session (cookie value)"
+        }
+      }
+    },
+    "error": {
+      "invalid_auth": "Hungryroot didn't accept that email and password. If they're right, go back and choose \"Paste a session\" instead.",
+      "invalid_session": "That session didn't work. Make sure you're logged in on hungryroot.com and copied the whole cookie value.",
+      "cannot_connect": "Couldn't reach Hungryroot. Try again in a minute."
+    },
+    "abort": {
+      "already_configured": "This Hungryroot account is already connected.",
+      "reauth_successful": "Logged in again. Your sensors will update shortly.",
+      "reconfigure_successful": "Login updated.",
+      "wrong_account": "That's a different Hungryroot account than the one connected here."
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "Hungryroot settings",
+        "data": {
+          "scan_interval_hours": "Check Hungryroot every"
+        },
+        "data_description": {
+          "scan_interval_hours": "Hours between checks. Fewer checks are less likely to bother Hungryroot."
+        }
+      }
+    }
+  },
+  "issues": {
+    "api_changed": {
+      "title": "Hungryroot changed their website",
+      "description": "The Hungryroot integration got an answer it doesn't understand ({detail}). Some sensors may be empty until it's updated.\n\nTo fix: open HACS, check for a Hungryroot update and install it. If there's no update yet, download diagnostics from Settings → Devices & services → Hungryroot → ⋮ → Download diagnostics, and hand that file to whoever maintains the integration."
+    }
+  },
+  "entity": {
+    "binary_sensor": {
+      "box_editable": { "name": "Box editable" }
+    },
+    "sensor": {
+      "next_delivery": { "name": "Next delivery" },
+      "edit_cutoff": { "name": "Edit cut-off" },
+      "box_items": { "name": "Box items" },
+      "recipes": { "name": "Recipes this week" },
+      "next_box_total": { "name": "Next box total" },
+      "recent_spend": { "name": "Spend (last 10 orders)" },
+      "last_delivery": { "name": "Last delivery" }
+    }
+  }
+}
